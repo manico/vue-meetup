@@ -6,6 +6,9 @@ module.exports = {
     browser: true,
   },
   extends: 'airbnb-base',
+  globals: {
+    d3: true,
+  },
   parser: 'babel-eslint',
   parserOptions: {
     sourceType: 'module'
