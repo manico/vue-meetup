@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <!-- <hello-world>Hello Meetup</hello-world> -->
-    <locale-label>buttonAddLabel</locale-label>
+    <hello-world>Hello Meetup</hello-world>
+    <!-- <locale-label>buttonAddLabel</locale-label> -->
   </div>
 </template>
 
