@@ -1,16 +1,18 @@
 <template>
   <div id="app">
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <!-- <hello-world>Hello Meetup</hello-world> -->
+    <locale-label>buttonAddLabel</locale-label>
   </div>
 </template>
 
 <script>
-  import HelloWorld from './components/HelloWorld';
+  import { HelloWorld, LocaleLabel } from './components';
 
   export default {
     name: 'app',
     components: {
       HelloWorld,
+      LocaleLabel,
     },
   };
 </script>
