@@ -1,5 +1,5 @@
 import http from 'axios';
-import { isEqual, map, merge } from 'lodash';
+import { map, merge } from 'lodash';
 
 export default {
   name: 'ChartLine',
@@ -11,8 +11,10 @@ export default {
   data() {
     return {
       data: [],
-      options: {
-        height: 460,
+      defaults: {
+        height: 480,
+        lineColor: 'steelblue',
+        lineWidth: 1.5,
         padding: {
           top: 20,
           right: 20,
@@ -41,6 +43,9 @@ export default {
     padding() {
       return this.options.padding;
     },
+    options() {
+      return merge({}, this.defaults, this.definition);
+    },
     scale() {
       const x = d3.scaleTime().rangeRound([0, this.width]);
       const y = d3.scaleLinear().rangeRound([this.height, 0]);
@@ -62,7 +67,6 @@ export default {
   },
   methods: {
     loadData() {
-      console.log('load...');
       http.get(this.dataSource.connector.options.url).then((response) => {
         const source = response.data;
         this.data = map(source, n => ({
@@ -74,37 +78,24 @@ export default {
     parseTime(value) {
       return d3.isoParse(value);
     },
-    setOptions(value, previous) {
-      if (value) {
-        console.log('set...');
-        merge(this.options, value);
-        if (!previous || (previous && !isEqual(value.dataSource, previous.dataSource))) {
-          this.loadData();
-        }
-      }
-    },
   },
   watch: {
-    definition: {
-      handler(value, previous) {
-        if (value) {
-          this.setOptions(value, previous);
-        }
-      },
-      deep: true,
+    dataSource() {
+      this.loadData();
     },
   },
   mounted() {
-    this.setOptions(this.definition);
+    this.loadData();
   },
   render(createElement) {
-    console.log('render...');
+    const opts = this.options;
+
     return createElement(
       'svg',
       {
         attrs: {
-          width: this.options.width,
-          height: this.options.height,
+          width: opts.width,
+          height: opts.height,
         },
       },
       [
@@ -129,8 +120,8 @@ export default {
               attrs: {
                 d: this.line,
                 fill: 'none',
-                stroke: 'steelblue',
-                'stroke-width': 1.5,
+                stroke: opts.lineColor,
+                'stroke-width': opts.lineWidth,
                 'stroke-linejoin': 'round',
                 'stroke-linecap': 'round',
               },

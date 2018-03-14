@@ -8,8 +8,6 @@
 </template>
 
 <script>
-  import { assign } from 'lodash';
-
   import {
     ChartLine,
     HelloWorld,
@@ -38,14 +36,6 @@
           },
         },
       };
-    },
-    mounted() {
-      setTimeout(() => {
-        console.log('change...');
-        this.chartLineDefinition = assign({}, this.chartLineDefinition, {
-          width: 1000,
-        });
-      }, 4000);
     },
   };
 </script>
