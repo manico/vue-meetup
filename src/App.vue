@@ -28,6 +28,7 @@
         chartLineDefinition: {
           title: 'Stocks',
           description: 'Stocks through time',
+          timeField: 'date',
           dataSource: {
             name: 'stocks',
             model: 'Stock',
@@ -44,6 +45,10 @@
               },
               close: {
                 name: 'close',
+                type: 'Number',
+              },
+              closeYesterday: {
+                name: 'closeYesterday',
                 type: 'Number',
               },
             },
