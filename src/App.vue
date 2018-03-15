@@ -26,11 +26,25 @@
     data() {
       return {
         chartLineDefinition: {
+          title: 'Stocks',
+          description: 'Stocks through time',
           dataSource: {
+            name: 'stocks',
+            model: 'Stock',
             connector: {
               type: 'http',
               options: {
                 url: '/data/stocks.json',
+              },
+            },
+            schema: {
+              date: {
+                name: 'date',
+                type: 'Date',
+              },
+              close: {
+                name: 'close',
+                type: 'Number',
               },
             },
           },

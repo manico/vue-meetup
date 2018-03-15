@@ -1,8 +1,12 @@
 import http from 'axios';
 import { map, merge } from 'lodash';
+import { chartable } from '../mixins';
 
 export default {
   name: 'ChartLine',
+  mixins: [
+    chartable,
+  ],
   props: {
     definition: {
       type: Object,
@@ -53,8 +57,8 @@ export default {
       x.domain(d3.extent(this.data, d => d.date));
       y.domain(d3.extent(this.data, d => d.close));
 
-      d3.select(this.$refs.axisX).call(d3.axisBottom(x));
-      d3.select(this.$refs.axisY).call(d3.axisLeft(y));
+      this.setGrid(x, y);
+      this.setAxes(x, y);
 
       return {
         x,
@@ -90,45 +94,56 @@ export default {
   render(createElement) {
     const opts = this.options;
 
-    return createElement(
-      'svg',
-      {
-        attrs: {
-          width: opts.width,
-          height: opts.height,
-        },
-      },
-      [
-        createElement(
-          'g',
-          {
-            attrs: {
-              transform: `translate(${this.padding.left}, ${this.padding.top})`,
-            },
+    return createElement('div', [
+      createElement(
+        'svg',
+        {
+          attrs: {
+            width: opts.width,
+            height: opts.height,
           },
-          [
-            createElement('g', {
-              ref: 'axisY',
-            }),
-            createElement('g', {
-              ref: 'axisX',
+        },
+        [
+          createElement(
+            'g',
+            {
               attrs: {
-                transform: `translate(0, ${this.height})`,
+                transform: `translate(${this.padding.left}, ${this.padding.top})`,
               },
-            }),
-            createElement('path', {
-              attrs: {
-                d: this.line,
-                fill: 'none',
-                stroke: opts.lineColor,
-                'stroke-width': opts.lineWidth,
-                'stroke-linejoin': 'round',
-                'stroke-linecap': 'round',
-              },
-            }),
-          ],
-        ),
-      ],
-    );
+            },
+            [
+              createElement('g', {
+                ref: 'axisY',
+              }),
+              createElement('g', {
+                ref: 'axisX',
+                attrs: {
+                  transform: `translate(0, ${this.height})`,
+                },
+              }),
+              createElement('g', {
+                ref: 'gridY',
+              }),
+              createElement('g', {
+                ref: 'gridX',
+                attrs: {
+                  transform: `translate(0, ${this.height})`,
+                },
+              }),
+              createElement('path', {
+                attrs: {
+                  d: this.line,
+                  fill: 'none',
+                  stroke: opts.lineColor,
+                  'stroke-width': opts.lineWidth,
+                  'stroke-linejoin': 'round',
+                  'stroke-linecap': 'round',
+                },
+              }),
+            ],
+          ),
+        ],
+      ),
+    ]);
   },
 };
