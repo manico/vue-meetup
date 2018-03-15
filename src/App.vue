@@ -35,7 +35,7 @@
             connector: {
               type: 'http',
               options: {
-                url: '/data/stocks.json',
+                url: '/data/temperature.json',
               },
             },
             schema: {
@@ -43,12 +43,16 @@
                 name: 'date',
                 type: 'Date',
               },
-              close: {
-                name: 'close',
+              newYork: {
+                name: 'newYork',
                 type: 'Number',
               },
-              closeYesterday: {
-                name: 'closeYesterday',
+              sanFrancisco: {
+                name: 'sanFrancisco',
+                type: 'Number',
+              },
+              austin: {
+                name: 'austin',
                 type: 'Number',
               },
             },

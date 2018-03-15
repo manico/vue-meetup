@@ -16,7 +16,7 @@ export default {
     return {
       data: [],
       defaults: {
-        height: 480,
+        height: 500,
         lineWidth: 1.5,
         padding: {
           top: 20,
@@ -24,7 +24,7 @@ export default {
           bottom: 30,
           left: 50,
         },
-        width: 800,
+        width: 960,
       },
     };
   },
@@ -43,10 +43,11 @@ export default {
     },
     series() {
       const fields = values(omit(this.dataSource.schema, this.timeField));
+
       return map(fields, n => ({
         name: n.name,
         values: map(this.data, m => ({
-          time: m[this.timeField],
+          time: this.parseTime(m[this.timeField]),
           serie: m[n.name],
         })),
       }));
@@ -56,7 +57,7 @@ export default {
       const y = d3.scaleLinear().rangeRound([this.height, 0]);
       const z = d3.scaleOrdinal(d3.schemeCategory10);
 
-      x.domain(d3.extent(this.data, d => d[this.timeField]));
+      x.domain(d3.extent(this.series[0].values, d => d.time));
 
       y.domain([
         d3.min(this.series, c => d3.min(c.values, d => d.serie)),
@@ -82,20 +83,15 @@ export default {
   methods: {
     loadData() {
       http.get(this.dataSource.connector.options.url).then((response) => {
-        const source = response.data;
-        this.data = map(source, n => ({
-          date: this.parseTime(n.date),
-          close: n.close,
-          closeYesterday: n.close * 2,
-        }));
+        this.data = response.data;
       });
     },
     getLine(serie) {
       const generator = d3.line()
-        .x(d => this.scale.x(d[this.timeField]))
-        .y(d => this.scale.y(d[serie.name]));
+        .x(d => this.scale.x(d.time))
+        .y(d => this.scale.y(d.serie));
 
-      return generator(this.data);
+      return generator(serie.values);
     },
     parseTime(value) {
       return d3.isoParse(value);
