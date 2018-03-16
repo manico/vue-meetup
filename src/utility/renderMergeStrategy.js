@@ -4,12 +4,12 @@ import Vue from 'vue';
 export function addRenderMergeStrategy() {
   Vue.config.optionMergeStrategies.render = (parentVal, childVal) => {
     if (parentVal) {
-      const newParentVal = function render(...args) {
+      const mergedParentVal = function render(...args) {
         args.push([childVal.apply(this, args)]);
         return parentVal.apply(this, args);
       };
 
-      return newParentVal;
+      return mergedParentVal;
     }
 
     return childVal;
