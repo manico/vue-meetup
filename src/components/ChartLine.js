@@ -1,5 +1,5 @@
 import http from 'axios';
-import { map, merge, omit, values } from 'lodash';
+import { isNil, map, merge, omit, values } from 'lodash';
 import { chartable } from '../mixins';
 
 export default {
@@ -21,19 +21,25 @@ export default {
         padding: {
           top: 20,
           right: 20,
-          bottom: 30,
+          bottom: 60,
           left: 50,
         },
-        width: 960,
       },
+      width: 960,
     };
   },
   computed: {
     dataSource() {
       return this.options.dataSource;
     },
-    height() {
+    chartHeight() {
       return this.options.height - this.padding.top - this.padding.bottom;
+    },
+    chartWidth() {
+      return this.width - this.padding.left - this.padding.right;
+    },
+    colorScale() {
+      return d3.scaleOrdinal(d3.schemeCategory10);
     },
     padding() {
       return this.options.padding;
@@ -42,10 +48,15 @@ export default {
       return merge({}, this.defaults, this.definition);
     },
     series() {
+      if (isNil(this.dataSource)) {
+        return null;
+      }
+
       const fields = values(omit(this.dataSource.schema, this.timeField));
 
       return map(fields, n => ({
         name: n.name,
+        label: n.label,
         values: map(this.data, m => ({
           time: this.parseTime(m[this.timeField]),
           serie: m[n.name],
@@ -53,9 +64,10 @@ export default {
       }));
     },
     scale() {
-      const x = d3.scaleTime().rangeRound([0, this.width]);
-      const y = d3.scaleLinear().rangeRound([this.height, 0]);
-      const z = d3.scaleOrdinal(d3.schemeCategory10);
+      this.setWidth();
+
+      const x = d3.scaleTime().rangeRound([0, this.chartWidth]);
+      const y = d3.scaleLinear().rangeRound([this.chartHeight, 0]);
 
       x.domain(d3.extent(this.series[0].values, d => d.time));
 
@@ -70,21 +82,19 @@ export default {
       return {
         x,
         y,
-        z,
       };
     },
     timeField() {
       return this.definition.timeField;
     },
-    width() {
-      return this.options.width - this.padding.left - this.padding.right;
-    },
   },
   methods: {
     loadData() {
-      http.get(this.dataSource.connector.options.url).then((response) => {
-        this.data = response.data;
-      });
+      if (this.dataSource && this.dataSource.connector) {
+        http.get(this.dataSource.connector.options.url).then((response) => {
+          this.data = response.data;
+        });
+      }
     },
     getLine(serie) {
       const generator = d3.line()
@@ -95,6 +105,11 @@ export default {
     },
     parseTime(value) {
       return d3.isoParse(value);
+    },
+    setWidth() {
+      if (this.$refs.container) {
+        this.width = this.$refs.container.clientWidth;
+      }
     },
   },
   watch: {
@@ -108,17 +123,30 @@ export default {
   render(createElement) {
     const opts = this.options;
 
+    if (isNil(this.dataSource)) {
+      // TODO: Render placeholder
+      console.log('placeholder');
+    }
+
     return createElement(
       'div',
       {
         ref: 'container',
+        staticStyle: {
+          position: 'relative',
+        },
       },
       [
+        ...this.renderLegend(
+          createElement,
+          this.series,
+          this.colorScale,
+        ),
         createElement(
           'svg',
           {
             attrs: {
-              width: opts.width,
+              width: this.width,
               height: opts.height,
             },
           },
@@ -137,7 +165,7 @@ export default {
                 createElement('g', {
                   ref: 'axisX',
                   attrs: {
-                    transform: `translate(0, ${this.height})`,
+                    transform: `translate(0, ${this.chartHeight})`,
                   },
                 }),
                 createElement('g', {
@@ -146,14 +174,14 @@ export default {
                 createElement('g', {
                   ref: 'gridX',
                   attrs: {
-                    transform: `translate(0, ${this.height})`,
+                    transform: `translate(0, ${this.chartHeight})`,
                   },
                 }),
                 map(this.series, serie => createElement('path', {
                   attrs: {
                     d: this.getLine(serie),
                     fill: 'none',
-                    stroke: this.scale.z(serie.name),
+                    stroke: this.colorScale(serie.name),
                     'stroke-width': opts.lineWidth,
                     'stroke-linejoin': 'round',
                     'stroke-linecap': 'round',
