@@ -4,7 +4,7 @@
     <!-- <locale-label>buttonAddLabel</locale-label> -->
     <!-- <text-heading :level="1">Heading</text-heading> -->
     <!-- <chart-line :definition="chartLine"></chart-line> -->
-    <simple-element>Element</simple-element>
+    <!-- <simple-element>Element</simple-element> -->
   </div>
 </template>
 

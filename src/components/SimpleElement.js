@@ -10,7 +10,12 @@ export default {
     const text = slots ? slots[0].text : null;
 
     return createElement(
-      'span',
+      'div',
+      {
+        staticStyle: {
+          background: 'yellow',
+        },
+      },
       text,
     );
   },
