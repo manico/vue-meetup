@@ -2,7 +2,7 @@
 Mixin for testing merging option of render function.
 */
 export default {
-  render(createElement, createChildrenElements) {
+  render(createElement, children) {
     return createElement(
       'div',
       {
@@ -14,7 +14,7 @@ export default {
       },
       [
         'Parent',
-        ...createChildrenElements,
+        ...children,
       ],
     );
   },
