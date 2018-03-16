@@ -1,2 +1,2 @@
-// eslint-disable-next-line
 export { default as chartable } from './chartable';
+export { default as renderable } from './renderable';

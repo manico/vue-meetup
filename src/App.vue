@@ -3,7 +3,8 @@
     <!-- <hello-world>Hello Meetup</hello-world> -->
     <!-- <locale-label>buttonAddLabel</locale-label> -->
     <!-- <text-heading :level="1">Heading</text-heading> -->
-    <chart-line :definition="chartLineDefinition2"></chart-line>
+    <!-- <chart-line :definition="chartLine"></chart-line> -->
+    <simple-element>Element</simple-element>
   </div>
 </template>
 
@@ -12,8 +13,11 @@
     ChartLine,
     HelloWorld,
     LocaleLabel,
+    SimpleElement,
     TextHeading,
   } from './components';
+
+  import { chartLine } from './dummy';
 
   export default {
     name: 'app',
@@ -21,48 +25,13 @@
       ChartLine,
       HelloWorld,
       LocaleLabel,
+      SimpleElement,
       TextHeading,
     },
     data() {
       return {
-        chartLineDefinition2: undefined,
-        chartLineDefinition: {
-          title: 'Stocks',
-          description: 'Stocks through time',
-          timeField: 'date',
-          dataSource: {
-            name: 'stocks',
-            model: 'Stock',
-            connector: {
-              type: 'http',
-              options: {
-                url: '/data/temperature.json',
-              },
-            },
-            schema: {
-              date: {
-                name: 'date',
-                type: 'Date',
-                label: 'Date',
-              },
-              newYork: {
-                name: 'newYork',
-                type: 'Number',
-                label: 'New York',
-              },
-              sanFrancisco: {
-                name: 'sanFrancisco',
-                type: 'Number',
-                label: 'San Francisco',
-              },
-              austin: {
-                name: 'austin',
-                type: 'Number',
-                label: 'Austin',
-              },
-            },
-          },
-        },
+        chartLineEmpty: undefined,
+        chartLine,
       };
     },
   };

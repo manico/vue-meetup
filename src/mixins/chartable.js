@@ -1,6 +1,12 @@
 import { each, isNil, map } from 'lodash';
 
 export default {
+  data() {
+    return {
+      data: [],
+      width: 960,
+    };
+  },
   methods: {
     renderLegend(createElement, series, colorScale) {
       return [

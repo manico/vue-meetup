@@ -14,7 +14,6 @@ export default {
   },
   data() {
     return {
-      data: [],
       defaults: {
         height: 500,
         lineWidth: 1.5,
@@ -25,7 +24,6 @@ export default {
           left: 50,
         },
       },
-      width: 960,
     };
   },
   computed: {
