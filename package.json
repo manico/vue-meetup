@@ -21,6 +21,7 @@
     "eslint-import-resolver-webpack": "^0.8.4",
     "eslint-plugin-html": "^4.0.2",
     "eslint-plugin-import": "^2.9.0",
+    "html-loader": "^0.5.5",
     "vue-template-compiler": "^2.5.13"
   },
   "babel": {

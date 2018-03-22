@@ -1,5 +1,11 @@
 export { default as ChartLine } from './ChartLine';
 export { default as HelloWorld } from './HelloWorld';
+export { default as HelloWorldFunctional } from './HelloWorldFunctional';
+export { default as ElementRepeater } from './ElementRepeater';
 export { default as LocaleLabel } from './LocaleLabel';
+export { default as SimpleCheckbox } from './SimpleCheckbox';
 export { default as SimpleElement } from './SimpleElement';
+export { default as SimpleTemplate } from './SimpleTemplate';
+export { default as SimpleTemplateRender } from './SimpleTemplateRender';
 export { default as TextHeading } from './TextHeading';
+export { default as TestJsx } from './TestJsx';
