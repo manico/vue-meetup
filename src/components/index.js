@@ -1,7 +1,10 @@
 export { default as ChartLine } from './ChartLine';
+export { default as CompiledElement } from './CompiledElement';
 export { default as HelloWorld } from './HelloWorld';
 export { default as HelloWorldFunctional } from './HelloWorldFunctional';
+export { default as DynamicHtmlLoader } from './DynamicHtmlLoader';
 export { default as ElementRepeater } from './ElementRepeater';
+export { default as ElementWrapper } from './ElementWrapper';
 export { default as LocaleLabel } from './LocaleLabel';
 export { default as SimpleCheckbox } from './SimpleCheckbox';
 export { default as SimpleElement } from './SimpleElement';
