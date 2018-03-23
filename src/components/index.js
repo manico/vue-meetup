@@ -1,3 +1,4 @@
+export { default as BasicElement } from './BasicElement';
 export { default as ChartLine } from './ChartLine';
 export { default as CompiledElement } from './CompiledElement';
 export { default as HelloWorld } from './HelloWorld';
