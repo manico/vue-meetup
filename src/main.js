@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { addRenderMergeStrategy } from './utility';
+// import { addRenderMergeStrategy } from './utility';
 import store from './store';
 import App from './App';
 
-addRenderMergeStrategy();
+// addRenderMergeStrategy();
 
 Vue.config.productionTip = false;
 Vue.use(Vuex);

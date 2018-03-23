@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <basic-element></basic-element>
+    <!-- <basic-element></basic-element> -->
     <!-- <hello-world>Hello Meetup</hello-world> -->
     <!-- <hello-world-functional>Hello Meetup</hello-world-functional> -->
     <!-- <locale-label>buttonAddLabel</locale-label> -->
